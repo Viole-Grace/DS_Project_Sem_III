@@ -7,6 +7,7 @@ int result[20][20];
 int u,v,w;
 int i,j,n,cn;
 int count=0;
+int i_s,j_s;
 void input()
 {
 	printf("\nEnter the no. of nodes : ");
@@ -38,15 +39,24 @@ void input()
 }
 void sort()
 {
-	int i,j,temp;
+	int i,j,temp,u_swap,v_swap;
 	for(i=0;i<count;i++)
 	{
 		for(j=0;j<count-i-1;j++)
 		{
 			if(graph[j][2]>graph[j+1][2])
 			{
+				//swap variables for u,v,w 
+				u_swap=graph[j][0]; 
+				v_swap=graph[j][1];
 				temp=graph[j][2];
+
+				graph[j][0]=graph[j+1][0];
+				graph[j][1]=graph[j+1][1];
 				graph[j][2]=graph[j+1][2];
+
+				graph[j+1][0]=u_swap;
+				graph[j+1][1]=v_swap;
 				graph[j+1][2]=temp;
 			}
 		}
@@ -67,8 +77,8 @@ int find(int i)
 }
 void uni(int i, int j)
 {
-	int i_s=find(i);
-	int j_s=find(j);
+	i_s=find(i);
+	j_s=find(j);
 	parent[i_s]=j_s;
 }
 int main()
