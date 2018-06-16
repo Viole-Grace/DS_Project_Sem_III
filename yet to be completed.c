@@ -1,19 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 int graph[100][3];
-int visited[20];
 int parent[20];
-int result[20][20];
-int u,v,w;
-int i,j,n,cn;
+int result[20][3];
 int count=0;
 int i_s,j_s;
 void input()
 {
+	int u,v,w,n,cn,i,j;
 	printf("\nEnter the no. of nodes : ");
 	scanf("%d",&n);
 	for(i=0;i<n;i++)
-		parent[i]=-1;visited[i]=0;
+		parent[i]=-1;
 	for(i=0;i<n;i++)
 	{
 		printf("\nEnter node : ");
@@ -61,7 +59,7 @@ void sort()
 			}
 		}
 	}
-	printf("\n Sorted Edges : \n");
+	printf("\nSorted Edges : \n");
 	for(i=0;i<count;i++)
 		printf("%d ",graph[i][2]);
 	printf("\nSorted Graph : ");
@@ -70,28 +68,30 @@ void sort()
 }
 int find(int i)
 {
-	if(parent[i]==-1)
+	if(parent[i-1]==-1)
 		return i;
 	else
-		return find(parent[i]);
+		return find(parent[i-1]);
 }
 void uni(int i, int j)
 {
 	i_s=find(i);
 	j_s=find(j);
-	parent[i_s]=j_s;
+	parent[i_s-1]=j_s;
 }
 int main()
 {
 	input();
 	sort();
-	int u,v,k,l;
+	int u,v,k;
 	int c=0,totalcost=0;
 	int u_s,v_s;
 	for(k=0;k<count;k++)
 	{
-		u=graph[k][0]; v=graph[k][1];
-		u_s=find(u);v_s=find(v);
+		u=graph[k][0];
+		v=graph[k][1];
+		u_s=find(u);
+		v_s=find(v);
 		if(u_s != v_s)
 		{
 			result[c][0]=u;
@@ -104,8 +104,8 @@ int main()
 	printf("\nSpanning Tree : ");
 	for(k=0;k<c;k++)
 	{
-		printf("\n%d --> %d | %d",graph[k][0],graph[k][1],graph[k][2]);
-		totalcost+=graph[k][2];
+		printf("\n%d --> %d | %d",result[k][0],result[k][1],result[k][2]);
+		totalcost+=result[k][2];
 	}
 	printf("\nTotal cost of the MST : %d\n",totalcost);
 }
